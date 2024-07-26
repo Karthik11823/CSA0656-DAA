@@ -1,0 +1,65 @@
+#include <stdio.h>
+
+// Name: B.Karthik
+// Register Number: 192211570
+
+// Structure to represent an item
+typedef struct {
+    int weight;
+    int value;
+    float ratio;
+} Item;
+
+// Function to sort items by value-to-weight ratio in descending order
+void sortItems(Item items[], int n) {
+    for (int i = 0; i < n-1; i++) {
+        for (int j = i+1; j < n; j++) {
+            if (items[i].ratio < items[j].ratio) {
+                Item temp = items[i];
+                items[i] = items[j];
+                items[j] = temp;
+            }
+        }
+    }
+}
+
+// Function to perform the knapsack using a greedy technique
+float knapsackGreedy(Item items[], int n, int W) {
+    sortItems(items, n);
+
+    int currentWeight = 0;
+    float finalValue = 0.0;
+
+    for (int i = 0; i < n; i++) {
+        if (currentWeight + items[i].weight <= W) {
+            currentWeight += items[i].weight;
+            finalValue += items[i].value;
+        } else {
+            int remainingWeight = W - currentWeight;
+            finalValue += items[i].value * ((float)remainingWeight / items[i].weight);
+            break;
+        }
+    }
+
+    return finalValue;
+}
+
+int main() {
+    char name[] = "B.Karthik";
+    char regno[] = "192211570";
+    printf("Name : %s\n", name);
+    printf("Regno : %s\n\n", regno);
+
+    Item items[] = {{10, 60, 0}, {20, 100, 0}, {30, 120, 0}};
+    int n = sizeof(items) / sizeof(items[0]);
+    int W = 50;
+
+    for (int i = 0; i < n; i++) {
+        items[i].ratio = (float)items[i].value / items[i].weight;
+    }
+
+    float maxValue = knapsackGreedy(items, n, W);
+    printf("Maximum value in Knapsack = %.2f\n", maxValue);
+
+    return 0;
+}
