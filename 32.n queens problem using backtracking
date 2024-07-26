@@ -1,0 +1,79 @@
+#include <stdio.h>  
+#include <stdbool.h>  
+
+#define N 8 // Change this value for different sizes of the board  
+
+// Function to print the chessboard  
+void printSolution(int board[N][N]) {  
+    for (int i = 0; i < N; i++) {  
+        for (int j = 0; j < N; j++) {  
+            printf(" %d ", board[i][j]);  
+        }  
+        printf("\n");  
+    }  
+    printf("\n");  
+}  
+
+// Function to check if placing a queen at board[row][col] is safe  
+bool isSafe(int board[N][N], int row, int col) {  
+    int i, j;  
+
+    // Check this row on left side  
+    for (i = 0; i < col; i++)  
+        if (board[row][i])  
+            return false;  
+
+    // Check upper diagonal on left side  
+    for (i = row, j = col; i >= 0 && j >= 0; i--, j--)  
+        if (board[i][j])  
+            return false;  
+
+    // Check lower diagonal on left side  
+    for (i = row, j = col; j >= 0 && i < N; i++, j--)  
+        if (board[i][j])  
+            return false;  
+
+    return true;  
+}  
+
+// Recursive utility to solve N-Queens problem  
+bool solveNQUtil(int board[N][N], int col) {  
+    // Base Case: If all queens are placed, return true  
+    if (col >= N)  
+        return true;  
+
+    for (int i = 0; i < N; i++) {  
+        // Check if it's safe to place queen  
+        if (isSafe(board, i, col)) {  
+            // Place queen  
+            board[i][col] = 1;  
+
+            // Recur to place the rest of the queens  
+            if (solveNQUtil(board, col + 1))  
+                return true;  
+
+            // Backtrack: Remove queen  
+            board[i][col] = 0;  
+        }  
+    }  
+
+    return false;  
+}  
+
+// Main function to solve N-Queens problem  
+int main() {  
+    char name[] = "B.Karthik";  
+    char regno[] = "192211570";  
+    printf("Name : %s\n", name);  
+    printf("Regno : %s\n\n", regno);  
+
+    int board[N][N] = {0}; // Initialize the board with 0s  
+
+    if (solveNQUtil(board, 0) == false) {  
+        printf("Solution does not exist\n");  
+        return 0;  
+    }  
+
+    printSolution(board);  
+    return 0;  
+}
