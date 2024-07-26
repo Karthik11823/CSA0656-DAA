@@ -1,0 +1,68 @@
+#include <stdio.h>
+#include <string.h>
+
+// Name: B.Karthik
+// Register Number: 192211570
+
+void findMaxMin(int arr[], int low, int high, int *max, int *min) {
+    int mid;
+    int max1, min1, max2, min2;
+
+    // If the array contains only one element
+    if (low == high) {
+        *max = arr[low];
+        *min = arr[low];
+    }
+    // If the array contains only two elements
+    else if (high == low + 1) {
+        if (arr[low] > arr[high]) {
+            *max = arr[low];
+            *min = arr[high];
+        } else {
+            *max = arr[high];
+            *min = arr[low];
+        }
+    }
+    // If the array contains more than two elements
+    else {
+        mid = (low + high) / 2;
+        findMaxMin(arr, low, mid, &max1, &min1);
+        findMaxMin(arr, mid + 1, high, &max2, &min2);
+
+        // Find the maximum of the two halves
+        *max = (max1 > max2) ? max1 : max2;
+
+        // Find the minimum of the two halves
+        *min = (min1 < min2) ? min1 : min2;
+    }
+}
+
+int main() {
+    char name[] = "B.Karthik";
+    char regno[] = "192211570";
+    printf("Name : %s\n", name);
+    printf("Regno : %s\n\n", regno);
+
+    // Array to find the max and min values
+    int arr[] = {3, 5, 1, 2, 4, 8, 6, 7};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    int max, min;
+
+    findMaxMin(arr, 0, n - 1, &max, &min);
+
+    printf("Maximum value in the list: %d\n", max);
+    printf("Minimum value in the list: %d\n", min);
+
+    // String copy example
+    char source[100];
+    char destination[100];
+    printf("\nEnter a string to copy: ");
+    fgets(source, sizeof(source), stdin);
+    if (source[strlen(source) - 1] == '\n')
+        source[strlen(source) - 1] = '\0';
+    strcpy(destination, source);
+    printf("Source String   : %s\n", source);
+    printf("Destination String: %s\n", destination);
+
+    return 0;
+}
