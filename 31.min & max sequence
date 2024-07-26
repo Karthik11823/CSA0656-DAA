@@ -1,0 +1,33 @@
+#include <stdio.h>
+#include <limits.h>
+
+// Name: B.Karthik
+// Register Number: 192211570
+
+void findMinMax(int arr[], int n) {
+    int min = INT_MAX, max = INT_MIN;
+
+    for (int i = 0; i < n; i++) {
+        if (arr[i] < min)
+            min = arr[i];
+        if (arr[i] > max)
+            max = arr[i];
+    }
+
+    printf("Minimum value: %d\n", min);
+    printf("Maximum value: %d\n", max);
+}
+
+int main() {
+    char name[] = "B.Karthik";
+    char regno[] = "192211570";
+    printf("Name : %s\n", name);
+    printf("Regno : %s\n\n", regno);
+
+    int arr[] = {3, 5, 1, 2, 4, 8, 6, 7};
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    findMinMax(arr, n);
+
+    return 0;
+}
