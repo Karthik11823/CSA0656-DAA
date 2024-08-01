@@ -1,0 +1,32 @@
+#include <stdio.h>
+#define MAX_SIZE 100
+void printDetails() {
+    printf("Name : B.Karthik\n");
+    printf("Reg no : 192211570\n");
+}
+void insertIntoList(int list[], int *size, int number) {
+    if (*size >= MAX_SIZE) {
+        printf("List is full. Cannot insert new number.\n");
+        return;
+    }
+    list[*size] = number;
+    (*size)++;
+}
+void printList(int list[], int size) {
+    printf("Current List: ");
+    for (int i = 0; i < size; i++) {
+        printf("%d ", list[i]);
+    }
+    printf("\n");
+}
+int main() {
+    int list[MAX_SIZE];
+    int size = 0;
+    int number;
+    printDetails();
+    printf("Enter a number to insert: ");
+    scanf("%d", &number);
+    insertIntoList(list, &size, number);
+    printList(list, size);
+    return 0;
+}
