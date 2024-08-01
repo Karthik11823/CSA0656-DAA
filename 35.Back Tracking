@@ -1,0 +1,76 @@
+#include <stdio.h>
+#include <stdbool.h>
+#define MAX_VERTICES 100
+void printDetails();
+bool isSafe(int graph[MAX_VERTICES][MAX_VERTICES], int vertex, int color[], int v, int c);
+bool graphColoringUtil(int graph[MAX_VERTICES][MAX_VERTICES], int m, int color[], int v, int V);
+bool graphColoring(int graph[MAX_VERTICES][MAX_VERTICES], int m, int V);
+void printDetails() {
+    printf("Name : B.Karthik\n");
+    printf("Reg no : 192211570\n");
+}
+bool isSafe(int graph[MAX_VERTICES][MAX_VERTICES], int vertex, int color[], int v, int c) {
+    for (int i = 0; i < v; i++) {
+        if (graph[vertex][i] && color[i] == c) {
+            return false;
+        }
+    }
+    return true;
+}
+bool graphColoringUtil(int graph[MAX_VERTICES][MAX_VERTICES], int m, int color[], int v, int V) {
+    if (v == V) {
+        return true;
+    }
+    for (int c = 1; c <= m; c++) {
+        if (isSafe(graph, v, color, V, c)) {
+            color[v] = c;
+
+            if (graphColoringUtil(graph, m, color, v + 1, V)) {
+                return true;
+            }
+
+            color[v] = 0; 
+        }
+    }
+    return false;
+}
+bool graphColoring(int graph[MAX_VERTICES][MAX_VERTICES], int m, int V) {
+    int color[MAX_VERTICES];
+    for (int i = 0; i < V; i++) {
+        color[i] = 0; 
+    }
+    if (graphColoringUtil(graph, m, color, 0, V) == false) {
+        return false;
+    }
+    printf("Solution exists: Following are the assigned colors:\n");
+    for (int i = 0; i < V; i++) {
+        printf("Vertex %d -> Color %d\n", i, color[i]);
+    }
+    return true;
+}
+int main() {
+    int graph[MAX_VERTICES][MAX_VERTICES];
+    int V, E, u, v, m;
+    printDetails();
+    printf("Enter the number of vertices: ");
+    scanf("%d", &V);
+    for (int i = 0; i < V; i++) {
+        for (int j = 0; j < V; j++) {
+            graph[i][j] = 0;
+        }
+    }
+    printf("Enter the number of edges: ");
+    scanf("%d", &E);
+    printf("Enter the edges (u v) for the graph:\n");
+    for (int i = 0; i < E; i++) {
+        scanf("%d %d", &u, &v);
+        graph[u][v] = 1;
+        graph[v][u] = 1; 
+    }
+    printf("Enter the number of colors: ");
+    scanf("%d", &m);
+    if (!graphColoring(graph, m, V)) {
+        printf("No solution exists.\n");
+    }
+    return 0;
+}
